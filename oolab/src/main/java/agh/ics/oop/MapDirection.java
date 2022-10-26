@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import java.util.Map;
+
 public enum MapDirection {
     NORTH,
     SOUTH,
@@ -13,7 +15,7 @@ public enum MapDirection {
             case SOUTH:
                 return "Południe";
             case WEST:
-                return "Wschód";
+                return "Zachód";
             case EAST:
                 return "Wschód";
             default:
@@ -21,57 +23,52 @@ public enum MapDirection {
         }
     }
 
-    public String next() {
+    // W prawo
+    public MapDirection next() {
         switch (this) {
             case EAST:
-                return "SOUTH";
+                return MapDirection.SOUTH;
             case WEST:
-                return "NORTH";
+                return MapDirection.NORTH;
             case NORTH:
-                return "EAST";
+                return MapDirection.EAST;
             case SOUTH:
-                return "WEST";
+                return MapDirection.WEST;
             default:
-                return "Error";
-
+                return MapDirection.NORTH;
         }
     }
 
-    public String previous() {
+    // w lewo
+    public MapDirection previous() {
         switch (this) {
             case EAST:
-                return "NORTH";
+                return MapDirection.NORTH;
             case WEST:
-                return "SOUTH";
+                return MapDirection.SOUTH;
             case NORTH:
-                return "WEST";
+                return MapDirection.WEST;
             case SOUTH:
-                return "EAST";
+                return MapDirection.EAST;
             default:
-                return "Error";
+                return MapDirection.NORTH;
         }
 
     }
 
     public Vector2d toUnitVector(){
-        int x,y;
 
         switch(this) {
             case EAST:
-                x = 1; y = 0;
-                break;
+                return new Vector2d(1, 0);
             case WEST:
-                x = -1; y = 0;
-                break;
+                return new Vector2d(-1, 0);
             case NORTH:
-                x = 0; y = 1;
-                break;
+                return new Vector2d(0, 1);
             case SOUTH:
-                x = 0; y = -1;
-                break;
+                return new Vector2d(0, -1);
             default:
-                x = 0; y = 0;
+                return new Vector2d(0, 0);
         }
-        return new Vector2d(x, y);
     }
 }

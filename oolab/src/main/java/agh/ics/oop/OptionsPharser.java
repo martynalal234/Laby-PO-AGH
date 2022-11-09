@@ -4,7 +4,7 @@ import java.util.Vector;
 
 public class OptionsPharser {
 
-    public MoveDirection[] pharse(String[] args) {
+    public MoveDirection[] parse(String[] args) {
         Vector<MoveDirection> tmp = new Vector<MoveDirection>();
         for(String arg: args){
             switch (arg) {

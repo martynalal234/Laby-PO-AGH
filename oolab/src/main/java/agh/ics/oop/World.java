@@ -2,10 +2,11 @@ package agh.ics.oop;
 
 public class World {
     public static void main(String[] args){
-
-        Animal Kotek = new Animal();
-        MoveDirection[] new_position = new OptionsPharser().pharse(new String[]{"f", "f", "f", "f", "f", "f"});
-        AnimalMove(new_position, Kotek);
+        MoveDirection[] directions = new OptionsPharser().parse(args);
+        IWorldMap map = new RectangularMap(10, 5);
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
+        IEngine engine = new SimulationEngine(directions, map, positions);
+        engine.run();
     }
 
     public static void AnimalMove(MoveDirection[] args, Animal kot){

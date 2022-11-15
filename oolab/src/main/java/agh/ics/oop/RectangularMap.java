@@ -11,13 +11,8 @@ public class RectangularMap implements IWorldMap{
         this.width = width;
 
         map = new Animal[width][height];
-
-        for( int i = 0; i < height; i++) {
-            for ( int j = 0; j < width; j++){
-                map[j][i] = null;
-            }
-        }
     }
+
     public boolean canMoveTo(Vector2d position){
         if(position.x < width && position.y < height && position.x >= 0 && position.y >=0
                 && map[position.x][position.y] == null){

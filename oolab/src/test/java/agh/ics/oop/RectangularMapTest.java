@@ -17,6 +17,7 @@ class RectangularMapTest {
         assertTrue(map.canMoveTo(new Vector2d(3,3)));
         assertFalse(map.canMoveTo(new Vector2d(5,3)));
         assertFalse(map.canMoveTo(new Vector2d(0,-1)));
+        assertFalse(map.canMoveTo((new Vector2d(1,1))));
 
     }
 

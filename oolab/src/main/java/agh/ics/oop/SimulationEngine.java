@@ -21,7 +21,4 @@ public class SimulationEngine implements IEngine{
             System.out.print(map);
         }
     }
-
-
-
 }

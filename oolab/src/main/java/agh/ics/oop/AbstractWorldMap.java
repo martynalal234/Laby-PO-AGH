@@ -1,22 +1,14 @@
 package agh.ics.oop;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class AbstractWorldMap implements IWorldMap{
-    protected ArrayList<IMapElement> elems = new ArrayList<>();
+    protected HashMap<Vector2d, IMapElement> elems = new HashMap<>();
 
     public boolean isOccupied(Vector2d position){
-        for(IMapElement e : elems){
-            if(position.equals(e.getPosition()))
-                return true;
-        }
-        return false;
+        return elems.containsKey(position);
     }
     public Object objectAt(Vector2d position){
-        for(IMapElement e : elems){
-            if(position.equals(e.getPosition()))
-                return e;
-        }
-        return null;
+        return elems.get(position);
     }
 
     public String toString(){
@@ -27,17 +19,23 @@ public abstract class AbstractWorldMap implements IWorldMap{
         int z = 0;
         int w = 0;
 
-        for (IMapElement e : elems) {
-            x = Math.max(x, e.getPosition().x);
-            y = Math.max(y, e.getPosition().y);
-            z = Math.min(z, e.getPosition().x);
-            w = Math.min(w, e.getPosition().y);
+        for(Vector2d p : elems.keySet()){
+            x = Math.max(x, p.x);
+            y = Math.max(y, p.y);
+            z = Math.min(z, p.x);
+            w = Math.min(w, p.y);
         }
 
-        Vector2d lov = new Vector2d(z,w);
+        Vector2d low = new Vector2d(z,w);
         Vector2d upper = new Vector2d(x,y);
-        return map.draw(lov, upper);
+        return map.draw(low, upper);
 
+    }
+
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
+        IMapElement e = elems.get(oldPosition);
+        elems.remove(oldPosition);
+        elems.put(newPosition, e);
     }
 
 }

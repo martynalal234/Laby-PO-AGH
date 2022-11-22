@@ -7,7 +7,7 @@ package agh.ics.oop;
  * @author apohllo
  *
  */
-public interface IWorldMap {
+public interface IWorldMap{
     /**
      * Indicate if any object can move to the given position.
      *
@@ -45,4 +45,6 @@ public interface IWorldMap {
      * @return Object or null if the position is not occupied.
      */
     Object objectAt(Vector2d position);
+
+    void positionChanged(Vector2d oldPosition, Vector2d newPosition);
 }

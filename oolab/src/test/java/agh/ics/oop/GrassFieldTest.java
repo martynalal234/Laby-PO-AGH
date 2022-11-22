@@ -9,9 +9,9 @@ class GrassFieldTest {
     @Test
     void canMoveTo() {
         GrassField grassField = new GrassField(5);
-        Animal kotek = new Animal(grassField, new Vector2d(1,1));
+        Animal kotek = new Animal(new Vector2d(1,1));
         grassField.place(kotek);
-        Animal piesek = new Animal(grassField, new Vector2d(1,2));
+        Animal piesek = new Animal(new Vector2d(1,2));
         grassField.place(piesek);
 
         assertTrue(grassField.canMoveTo(new Vector2d(3,3)));
@@ -22,21 +22,21 @@ class GrassFieldTest {
     @Test
     void place() {
         GrassField grassField = new GrassField(5);
-        Animal kotek = new Animal(grassField, new Vector2d(1,1));
+        Animal kotek = new Animal(new Vector2d(1,1));
         grassField.place(kotek);
-        Animal piesek = new Animal(grassField, new Vector2d(1,2));
+        Animal piesek = new Animal(new Vector2d(1,2));
         grassField.place(piesek);
 
-        assertTrue(grassField.place(new Animal(grassField,new Vector2d(2,2))));
-        assertFalse(grassField.place(new Animal(grassField, new Vector2d(1,1))));
+        assertTrue(grassField.place(new Animal(new Vector2d(2,2))));
+        assertFalse(grassField.place(new Animal(new Vector2d(1,1))));
     }
 
     @Test
     void isOccupied() {
         GrassField grassField = new GrassField(5);
-        Animal kotek = new Animal(grassField, new Vector2d(1,1));
+        Animal kotek = new Animal(new Vector2d(1,1));
         grassField.place(kotek);
-        Animal piesek = new Animal(grassField, new Vector2d(1,2));
+        Animal piesek = new Animal(new Vector2d(1,2));
         grassField.place(piesek);
 
         assertTrue(grassField.isOccupied(new Vector2d(1,1)));
@@ -47,9 +47,9 @@ class GrassFieldTest {
     @Test
     void objectAt() {
         GrassField grassField = new GrassField(5);
-        Animal kotek = new Animal(grassField, new Vector2d(1,1));
+        Animal kotek = new Animal(new Vector2d(1,1));
         grassField.place(kotek);
-        Animal piesek = new Animal(grassField, new Vector2d(1,2));
+        Animal piesek = new Animal(new Vector2d(1,2));
         grassField.place(piesek);
 
         assertEquals(null, grassField.objectAt(new Vector2d(3,3)));

@@ -14,17 +14,15 @@ public class RectangularMap extends AbstractWorldMap implements IWorldMap{
                 position.y < 0 || position.y > height)
             return false;
 
-        for(IMapElement e : elems){
-            if(position.equals(e.getPosition()))
-                return false;
-        }
+        if(elems.containsKey(position))
+            return false;
         return true;
     }
 
     public boolean place(Animal animal){
         if(!canMoveTo(animal.getPosition()))
             return false;
-        elems.add(animal);
+        elems.put(animal.getPosition(), animal);
         return true;
     }
 }

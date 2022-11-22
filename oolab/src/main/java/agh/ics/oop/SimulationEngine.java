@@ -10,7 +10,8 @@ public class SimulationEngine implements IEngine{
         this.moves = moves;
         animals = new Animal[positions.length];
         for(int i = 0; i < positions.length; i++){
-            animals[i] = new Animal(map, positions[i]);
+            animals[i] = new Animal(positions[i]);
+            animals[i].addObserver(map);
             map.place(animals[i]);
         }
     }

@@ -3,14 +3,11 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.lang.Math;
 
-public class GrassField implements IWorldMap{
-    Grass[] grasses;
-    ArrayList<Animal> animalList;
-
+public class GrassField extends AbstractWorldMap implements IWorldMap{
+    private final int nmax;
     public GrassField(int n){
-        grasses = new Grass[n];
-        animalList = new ArrayList<>();
-
+        nmax = n;
+        ArrayList<Grass> grasses = new ArrayList<Grass>();
         for(int i = 0; i < n; i++){
             while (true) {
                 int x, y;
@@ -23,86 +20,83 @@ public class GrassField implements IWorldMap{
 
                 boolean bool = true;
                 for( int j = 0; j < i; j++){
-                    if (grasses[j] == g) {
+                    if (grasses.get(j) == g) {
                         bool = false;
                     }
                 }
                 if(bool){
-                    grasses[i] = g;
+                    grasses.add(g);
                     break;
                 }
             }
-
         }
+        for(Grass g : grasses)
+            elems.add(g);
     }
     public boolean canMoveTo(Vector2d position){
-        for (Animal a : animalList){
-            if (a.getPosition().equals(position))
+        for (IMapElement e : elems){
+            if (e instanceof Animal && position.equals(e.getPosition()))
                 return false;
         }
         return true;
     }
 
     public boolean place(Animal animal){
-        if (isOccupied(animal.getPosition()))
-            return false;
-
-        animalList.add(animal);
+        for(IMapElement e : elems){
+            if(animal.getPosition().equals(e.getPosition()) &&
+                e instanceof Animal)
+                return false;
+        }
+        elems.add(animal);
         return true;
     }
-    public boolean isOccupied(Vector2d position){
-        for(int i = 0; i < grasses.length; i++){
-            if (grasses[i].getPosition().equals(position))
-                return true;
+
+    @Override
+    public String toString() {
+        int cnt = 0;
+        for(int i = 0; i < elems.size(); i++){
+            for(int j = i + 1; j < elems.size(); j++){
+                if(elems.get(i).getPosition().equals(elems.get(j).getPosition())){
+                    if(elems.get(i) instanceof Grass) {
+                        elems.remove(i);
+                    } else if(elems.get(j) instanceof Grass){
+                        elems.remove(j);
+                    }
+                    cnt++;
+                }
+            }
         }
 
-        for (Animal a : animalList){
-            if (a.getPosition().equals(position))
-                return true;
+        ArrayList<Grass> grasses = new ArrayList<>();
+        for(int i = 0; i < cnt; i++){
+            while (true) {
+                int x, y;
+                Random random = new Random();
+                x = random.nextInt((int)Math.sqrt(nmax*10) + 1);
+                y = random.nextInt((int)Math.sqrt(nmax*10) + 1);
+
+                Vector2d pos = new Vector2d(x,y);
+                Grass g = new Grass(pos);
+
+                boolean bool = true;
+                for( int j = 0; j < i; j++){
+                    if (grasses.get(j) == g) {
+                        bool = false;
+                    }
+                }
+                for(IMapElement e : elems){
+                    if(g.equals(e.getPosition()))
+                        bool = false;
+                }
+                if(bool){
+                    grasses.add(g);
+                    break;
+                }
+            }
         }
-        return false;
+        for(Grass g : grasses)
+            elems.add(g);
+
+        return super.toString();
     }
-    public Object objectAt(Vector2d position) {
-        for (Animal a : animalList) {
-            if (a.getPosition().equals(position))
-                return a;
-        }
-
-        for (int i = 0; i < grasses.length; i++) {
-            if (grasses[i].getPosition().equals(position))
-                return grasses[i];
-        }
-
-        return null;
-    }
-
-    public String toString(){
-        MapVisualizer map = new MapVisualizer(this);
-        int x = 0;
-        int y = 0;
-
-        int z = 0;
-        int w = 0;
-
-        for (Animal a : animalList) {
-            x = Math.max(x, a.getPosition().x);
-            y = Math.max(y, a.getPosition().y);
-            z = Math.min(z, a.getPosition().x);
-            w = Math.min(w, a.getPosition().y);
-
-        }
-
-        for (int i = 0; i < grasses.length; i++) {
-            x = Math.max(x, grasses[i].getPosition().x);
-            y = Math.max(y, grasses[i].getPosition().y);
-            z = Math.min(z, grasses[i].getPosition().x);
-            w = Math.min(w,grasses[i].getPosition().y);
-        }
-
-        Vector2d lov = new Vector2d(z,w);
-        Vector2d upper = new Vector2d(x,y);
-        return map.draw(lov, upper);
-
-    }
-
 }

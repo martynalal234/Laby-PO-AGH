@@ -12,7 +12,7 @@ public class OptionsPharser {
                 case "b" -> tmp.add(MoveDirection.BACKWARD);
                 case "l" -> tmp.add(MoveDirection.LEFT);
                 case "r" -> tmp.add(MoveDirection.RIGHT);
-                default -> {continue;}
+                default -> {throw new IllegalArgumentException(arg + " is not legal move specification");}
             }
         }
 

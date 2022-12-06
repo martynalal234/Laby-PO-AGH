@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class Animal implements IMapElement {
     private MapDirection orient = MapDirection.NORTH;
     private Vector2d position = new Vector2d(2,2);
-    private final ArrayList<IWorldMap> observers = new ArrayList<>();
+    private final ArrayList<IPositionChangeObserver> observers = new ArrayList<>();
+    private final ArrayList<IWorldMap> maps = new ArrayList<>();;
 
     public Animal(Vector2d initialPosition){
         position = initialPosition;
@@ -15,13 +16,8 @@ public class Animal implements IMapElement {
     @Override
     public String toString(){ return this.orient.toString(); }
 
-    public boolean isAt(Vector2d other){
-        if (position.equals(other)){return true;}
-        return false;
-    }
-
     private void positionChanged(Vector2d old, Vector2d new_pos){
-        for(IWorldMap m : observers){
+        for(IPositionChangeObserver m : observers){
             m.positionChanged(old, new_pos);
         }
     }
@@ -34,7 +30,7 @@ public class Animal implements IMapElement {
             case FORWARD -> new_position = this.position.add(this.orient.toUnitVector());
             case BACKWARD -> new_position = this.position.subtract(this.orient.toUnitVector());
         }
-        for(IWorldMap m : observers){
+        for(IWorldMap m : maps){
             if(!m.canMoveTo(new_position))
                 return;
         }
@@ -45,10 +41,11 @@ public class Animal implements IMapElement {
         return this.position;
     }
 
-    public void addObserver(IWorldMap observer){
+    public void addObserver(IPositionChangeObserver observer){
         observers.add(observer);
     }
-    public void removeObserver(IWorldMap observer){
+    public void removeObserver(IPositionChangeObserver observer){
         observers.remove(observer);
     }
+    public void addMap(IWorldMap m) { maps.add(m); }
 }

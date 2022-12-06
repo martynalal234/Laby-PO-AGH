@@ -11,8 +11,10 @@ public class SimulationEngine implements IEngine{
         animals = new Animal[positions.length];
         for(int i = 0; i < positions.length; i++){
             animals[i] = new Animal(positions[i]);
-            animals[i].addObserver(map);
-            map.place(animals[i]);
+            animals[i].addObserver((IPositionChangeObserver) map);
+            animals[i].addMap(map);
+            if(!map.place(animals[i]))
+                throw new IllegalArgumentException("Animal can't be placed on " + positions[i].toString());
         }
     }
 

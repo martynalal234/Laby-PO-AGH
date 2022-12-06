@@ -45,6 +45,7 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
             elems.put(animal.getPosition(), animal);
         else
             return false;
+        boundary.addVector(animal.getPosition());
         return true;
     }
 }

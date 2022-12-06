@@ -23,6 +23,7 @@ public class RectangularMap extends AbstractWorldMap implements IWorldMap{
         if(!canMoveTo(animal.getPosition()))
             return false;
         elems.put(animal.getPosition(), animal);
+        boundary.addVector(animal.getPosition());
         return true;
     }
 }
